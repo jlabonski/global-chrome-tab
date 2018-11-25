@@ -53,7 +53,7 @@ const createTabOptions = {
  * Create a new tab on the current window.
  */
 const newTab = () => {
-  chrome.windows.getCurrent(getWindowOptions, function (win) {
+  chrome.windows.getCurrent(getWindowOptions, (win) => {
     refocus(win.id, () => {
       chrome.tabs.create(createTabOptions);
     })
@@ -64,7 +64,15 @@ const newTab = () => {
  * Create a new window
  */
 const newWindow = () => {
-  chrome.windows.create(createWindowOptions, function (win) {
+  chrome.windows.create(createWindowOptions, (win) => {
+
+    // Man, this is annoying. _Some_ times I get old tabs in the newly created
+    // window. Attempt an iteration backwards, closing merrily as we go.
+    if(win.tabs && win.tabs.length > 1){
+      for (const i = win.tabs.length; i > 0; i--){
+        chrome.tabs.remove(win.tabs[i].id)
+      }
+    }
     refocus(win.id)
   });
 }
@@ -76,7 +84,7 @@ const newWindow = () => {
  * extension to allow focusing.
  */
 const newIncognitoWindow = () => {
-  chrome.windows.create(createIncognitoOptions, function (win) {
+  chrome.windows.create(createIncognitoOptions, (win) => {
     if(!win){
       // Caused by the "Allow in incognito" not checked. The extension
       // can't manage its own children windows.
