@@ -5,7 +5,7 @@
  * https://developer.chrome.com/extensions/windows#method-create
  */
 const createWindowOptions = {
-  url: 'about:blank',
+  url: [],
   focused: true,
   type: 'normal',
   state: 'normal',
