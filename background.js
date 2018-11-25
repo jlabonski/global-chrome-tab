@@ -5,11 +5,11 @@
  * https://developer.chrome.com/extensions/windows#method-create
  */
 const createWindowOptions = {
-  url: [],
+  url: 'chrome://newtab',
   focused: true,
   type: 'normal',
   state: 'normal',
-  setSelfAsOpener: true
+  setSelfAsOpener: false
 }
 
 /**
